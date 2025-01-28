@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'config/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install JSON Processor
+        run: sudo apt-get install -y jq
+
+      - name: Check Config Files
+        run: jq empty resources/good.json && jq empty resources/bad.json
